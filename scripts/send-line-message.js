@@ -7,8 +7,13 @@ import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js'
 
 const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const serverPath = path.resolve(scriptDirectory, '../src/server.js');
-const chatName = process.argv[2] || 'keep筆記';
-const message = process.argv[3] || '測試分享';
+const [chatName, message] = process.argv.slice(2);
+
+if (!chatName || !message) {
+  console.error('Usage: node scripts/send-line-message.js <chatName> <message>');
+  console.error('Example: node scripts/send-line-message.js "keep筆記" "測試分享"');
+  process.exit(1);
+}
 
 const client = new Client({
   name: 'line-message-script',

@@ -1,6 +1,7 @@
 // src/automation/windows-line-automation.js
 import { exec, execSync } from 'child_process';
 import { promisify } from 'util';
+import fsSync from 'fs';
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
@@ -17,7 +18,33 @@ export class WindowsLineAutomation {
     this.delayMid = 600; // for short data loading
     this.delayMidLong = 1200; // for mid data loading
     this.delayLong = 3000; // for long data loading
-    this.ahkPath = 'autohotkey'; // Assume AutoHotkey v2 is in PATH
+    this.ahkPath = this.findAutoHotkey();
+  }
+
+  findAutoHotkey() {
+    const candidates = [
+      process.env.AUTOHOTKEY_PATH,
+      'autohotkey.exe',
+      'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey.exe',
+      'C:\\Program Files\\AutoHotkey\\v2\\AutoHotkey64.exe',
+      'C:\\Program Files (x86)\\AutoHotkey\\v2\\AutoHotkey.exe',
+    ].filter(Boolean);
+
+    for (const candidate of candidates) {
+      if (path.isAbsolute(candidate)) {
+        if (fsSync.existsSync(candidate)) return candidate;
+        continue;
+      }
+
+      try {
+        const resolved = execSync(`where.exe "${candidate}"`, { encoding: 'utf8' }).trim().split(/\r?\n/)[0];
+        if (resolved) return resolved;
+      } catch {
+        continue;
+      }
+    }
+
+    return 'autohotkey.exe';
   }
 
   /**
