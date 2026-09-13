@@ -12,14 +12,7 @@
 ## 用法
 
 ```powershell
-# 先預覽：只開第一個聊天室、把訊息打進輸入框、不按 Enter
-node scripts\win-bulk-send.js --contacts names.txt --message "明天 10:00 開會" --preview
-
-# 確認開的房間和內容都對之後（記得先刪掉預覽留下的草稿），正式送
-node scripts\win-bulk-send.js --contacts names.txt --message "明天 10:00 開會"
-
-# 名字也可以直接放參數；多行訊息用檔案
-node scripts\win-bulk-send.js "王小明" "專案討論群" --message-file msg.txt --delay-ms 5000
+node scripts\win-bulk-send.js "Keep Memo" --message "test" --preview
 ```
 
 `names.txt` 格式見 `scripts/win-bulk-send.contacts.example.txt`。
