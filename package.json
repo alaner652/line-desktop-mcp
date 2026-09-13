@@ -12,7 +12,8 @@
     "dev": "node --watch src/server.js",
     "test": "node test/test.js",
     "build:mcpb": "node scripts/build-mcpb.js",
-    "probe": "node scripts/probe-ax.js"
+    "probe": "node scripts/probe-ax.js",
+    "win:bulk-send": "node scripts/win-bulk-send.js"
   },
   "keywords": [
     "mcp",
